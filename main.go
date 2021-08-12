@@ -8,19 +8,34 @@ import (
 
 func main() {
 	logs := log.New()
-	log.SetOutput(os.Stdout)
+	logs.SetLevel(log.InfoLevel)
+	logs.SetOutput(os.Stdout)
 
 	flags := NewFlags(logs)
-	if err := flags.Check(); err != nil {
+
+	/*if err := flags.Check(); err != nil {
+		logs.Error(err)
+		os.Exit(1)
+	}*/
+
+	solana := NewSolana(flags, logs)
+	ok, err := solana.Rpc.HealthCheck()
+	if err != nil {
+		logs.Error(err)
+		os.Exit(1)
+	}
+	logs.Info(ok)
+
+	data, err := solana.Rpc.RpcVersion()
+	if err != nil {
 		logs.Error(err)
 		os.Exit(1)
 	}
 
-	solana := NewSolana(flags, logs)
-	if err := solana.Connection.Health(); err != nil {
-		logs.Error(err)
-		os.Exit(1)
-	}
+	logs.Info(data.FeatureSet)
+	logs.Info(data.SolanaCore)
+
+	solana.Rpc.RpcGetBalance()
 
 }
 

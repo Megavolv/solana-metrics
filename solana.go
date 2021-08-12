@@ -1,19 +1,21 @@
 package main
 
 import (
+	"solana-metrics/solanarpc"
+
 	log "github.com/sirupsen/logrus"
 )
 
 type Solana struct {
-	flags      *Flags
-	Connection *Connection
-	logs       *log.Logger
+	flags  *Flags
+	Rpc    *solanarpc.SolanaRpc
+	logger *log.Logger
 }
 
-func NewSolana(flags *Flags, logs *log.Logger) *Solana {
+func NewSolana(flags *Flags, logger *log.Logger) *Solana {
 	return &Solana{
-		flags:      flags,
-		Connection: NewConnection(flags.RpcAddress),
-		logs:       logs,
+		flags:  flags,
+		Rpc:    solanarpc.NewSolanaRpc(flags.RpcAddress, logger),
+		logger: logger,
 	}
 }

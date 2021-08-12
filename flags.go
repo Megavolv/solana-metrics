@@ -28,7 +28,7 @@ func NewFlags(logs *log.Logger) *Flags {
 	flag.IntVar(&flags.Port, "port", 8312, "Listen port")
 	flag.StringVar(&flags.SolanaPath, "solana-path", path, "Solana path")
 	flag.StringVar(&flags.RpcAddress, "rpc-address", "http://localhost:8899", "Solana rpc")
-	flag.StringVar(&flags.LogFilter, "log-filter", "warn", "Log level. One of: warning, error, info")
+	flag.StringVar(&flags.LogFilter, "log-filter", "info", "Log level. One of: warning, error, info")
 	flag.Parse()
 
 	switch flags.LogFilter {
@@ -39,7 +39,7 @@ func NewFlags(logs *log.Logger) *Flags {
 	case "info":
 		log.SetLevel(log.InfoLevel)
 	default:
-		log.SetLevel(log.WarnLevel)
+		log.SetLevel(log.InfoLevel)
 	}
 
 	return flags
