@@ -1,4 +1,4 @@
-module solana-metrics
+module github.com/Megavolv/solana-metrics
 
 go 1.16
 
